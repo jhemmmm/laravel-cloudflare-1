@@ -37,7 +37,9 @@ class CloudflareProxies
     public function __construct(Repository $config, GuzzleClient $client = null)
     {
         $this->config = $config;
-        $this->client = $client ?? new GuzzleClient();
+        $this->client = new GuzzleClient([
+            'verify' => false
+        ]);
     }
 
     /**
@@ -71,11 +73,11 @@ class CloudflareProxies
     protected function retrieve($name): array
     {
         try {
-            $url = $this->config->get('laravelcloudflare.url').'/'.$name;
+            $url = $this->config->get('laravelcloudflare.url') . '/' . $name;
 
             $response = $this->client->request('GET', $url);
         } catch (\Exception $e) {
-            throw new UnexpectedValueException('Failed to load trust proxies from Cloudflare server.', 1, $e);
+            throw new UnexpectedValueException($e->getMessage());
         }
 
         if ($response->getStatusCode() != 200) {

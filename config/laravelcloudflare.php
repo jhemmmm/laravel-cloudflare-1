@@ -23,7 +23,7 @@ return [
     |
     */
 
-    'url' => 'https://www.cloudflare.com',
+    'url' => 'http://www.cloudflare.com',
 
     /*
     |--------------------------------------------------------------------------
